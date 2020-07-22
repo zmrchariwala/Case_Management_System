@@ -1,0 +1,52 @@
+.flex_container{
+    display:flex;
+    flex-direction: row;
+    flex-flow:wrap;
+    
+}
+.personal_information{
+    
+    display: flex;
+    order: 1;
+    flex-basis: 45%;
+    margin-right: 2.5%;
+    flex-flow: column;
+}
+
+.address_information{
+    
+    display: flex;
+    order: 2;
+    flex-basis: 45%;
+    margin-left: 2.5%;
+    flex-flow: column;
+}
+footer{
+    height: 40px;
+}
+legend{
+    font-weight: bold;
+}
+
+
+@media only screen and (max-device-width: 480px){
+    .flex_container{
+        display:flex;
+        flex-direction:column;
+        height: auto;
+    }
+    .personal_information{
+        margin-right: 0;
+        display: flex;
+        order: 1;
+        flex-basis: 50%;
+        
+    }
+    .address_information{
+        margin-left: 0;
+        display: flex;
+        order: 2;
+        flex-basis: 50%;
+        
+    }
+}
