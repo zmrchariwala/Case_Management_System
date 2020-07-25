@@ -231,7 +231,7 @@ class User_Models
         //print_r($user_email);
         $mail->AddAddress($user_email);
         $mail->Username="zmrchariwala@gmail.com";
-        $mail->Password="princedonno1";
+        $mail->Password="";
         $mail->SetFrom('zmrchariwala@gmail.com');
         $mail->Subject    = $subject;
         $mail->MsgHTML($message);
