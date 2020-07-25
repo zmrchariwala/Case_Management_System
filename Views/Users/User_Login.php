@@ -1,11 +1,14 @@
 <?php
+    session_start();
     require_once '../../Models/User_Model.php';
     if(isset($_POST['submit'])){
         $email_address = $_POST['email_address'];
         $password = $_POST['password'];
+        $user_type = $_POST['user_type'];
         $user = new User_Models();
-        $results = $user->Login_Process($email_address, $password);
+        $results = $user->Login_Process($email_address, $password,$user_type);
         echo $results;
+        //header("location:Two_Factor_Authentication.php");
     }
 ?>
 <html>
@@ -23,6 +26,16 @@
             <div class="container">
                 <h2>Login</h2>
                 <div>
+                    <label>Login as:</label>
+                </div>
+                <div>
+                <div>
+                    <select name="user_type" class="form-control">
+                        <option>--Select User--</option>
+                        <option value="Case manager" >Case Manager</option>
+                        <option value="Supervisor" >Supervisor</option>
+                    </select>
+                </div>
                     <label>Please enter email address:</label>
                 </div>
                 <div>

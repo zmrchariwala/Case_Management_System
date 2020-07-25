@@ -1,31 +1,16 @@
 <?php
     require_once '../../Models/User_Model.php';
-    if(isset($_POST['submit']))
-    {
-        $user = new User_Models();
-        //$result = $user->User_Registration($_POST['first_name'],$_POST['middle_name'],$_POST['last_name'],$_POST['date_of_birth'],$_POST['gender'],$_POST['email_address'],$_POST['password'],$_POST['start_date'],$_POST['end_date'],$_POST['home_phone'],$_POST['mobile_phone'],$_POST['address1'],$_POST['address2'],$_POST['city'],$_POST['state'],$_POST['postal_code'],$_POST['country'],$_POST['designation'],$_POST['location'],$_POST['department']);
+    $user = new User_Models();
+    $results = $user->Fetch_Organizations();
+    if(isset($_POST['submit'])){
         
-        if($user->User_Registration($_POST['first_name'],$_POST['middle_name'],$_POST['last_name'],$_POST['date_of_birth'],$_POST['gender'],$_POST['email_address'],$_POST['password'],$_POST['start_date'],$_POST['end_date'],$_POST['home_phone'],$_POST['mobile_phone'],$_POST['address1'],$_POST['address2'],$_POST['city'],$_POST['state'],$_POST['postal_code'],$_POST['country'],$_POST['designation'],$_POST['location'],$_POST['department'])){
-            
-            $email_address = $_POST['email_address'];
-            
-            $encrypt_email_address = base64_encode($email_address);
-            $user_email = $email_address;
-            $message = "<h4>Login information</h4>"."<h5> Email address: $email_address</h5>"."<h5> Password : $password </h5>";
-            //$message = "<a href='http://localhost:8888/Case_Management_System/Views/Users/User_Activation.php?id=$encrypt_email_address'>Hello</a>";
-            $subject ="Activation";
-            $user->Send_Mail($user_email, $message, $subject);
-        }
-        else{
-            echo 'not';
-        }
-        
+        $user->Create_Contact($_POST['first_name'],$_POST['middle_name'],$_POST['last_name'],$_POST['date_of_birth'],$_POST['gender'],$_POST['email_address'],$_POST['home_phone'],$_POST['mobile_phone'],$_POST['address1'],$_POST['address2'],$_POST['city'],$_POST['state'],$_POST['postal_code'],$_POST['country'],$_POST['organization_id'],$_POST['organization_branch_id'],$_POST['designation'],$_POST['start_date'],$_POST['end_date']);
     }
 ?>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>User registration</title>
+        <title>Contact Registration</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -33,9 +18,10 @@
         <link rel="stylesheet" href="../../Style_Sheet/Style.css">
     </head>
     <body>
-        <form action="#" method="post">
+        
+        <form method="post" action="#"> 
             <div class="container">
-                <h2>Supervisor Registration</h2>
+                <h2>Contact Registration</h2>
                 <h5>Small thought</h5>
                 <hr>
 
@@ -75,8 +61,14 @@
                             <label>Male</label>
                             <input type="radio" value="Female" name="gender" />
                             <label>Female</label>
-                            <input type="radio" value="Others" name="gender" />
-                            <label>Other</label>
+                            <input type="radio" value="Transgender" name="gender" />
+                            <label>Transgender</label>
+                        </div>
+                        <div>
+                        <label>Email address:</label>
+                        </div>
+                        <div>
+                            <input type="email" name="email_address" class="form-control" required="email"/>
                         </div>
                         <div>
                             <label>Home Phone:</label>
@@ -142,6 +134,30 @@
                     <legend>Workplace details</legend>
                     <div class="workplace_information">
                         <div>
+                            <label>Organization</label>
+                        </div>
+                        <div>
+                            <select id="organization" name="organization_id" class="form-control">
+                            <?php
+                                foreach ($results as $result){
+
+                            ?>
+                                <option value=<?= $result['organization_id']?>><?= $result['organization_name'] ?></option>
+                            <?php
+                            }
+                            ?>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Location:</label>
+                        </div>
+                        <div>
+                            <select id="location" class="form-control" name="organization_branch_id">
+                                <option>--Select--</option>
+                                
+                            </select>
+                        </div>
+                        <div>
                             <label>Designation:</label>
                         </div>
                         <div>
@@ -159,50 +175,9 @@
                         <div>
                             <input type="date" name="end_date" class="form-control" required/>
                         </div>
-                        <div>
+                        <!--<div>
                             <input type="checkbox" value="working"/> <label>Currently working</label>
-                        </div>
-                        <div>
-                            <label>Location:</label>
-                        </div>
-                        <div>
-                            <select class="form-control" name="location">
-                                <option value="1">Location 1</option>
-                                <option value="2">Location 2</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Department:</label>
-                        </div>
-                        <div>
-                            <select class="form-control" name="department">
-                                <option value="1">Department 1</option>
-                                <option value="2">Department 2</option>
-                            </select>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Login details</legend>
-                    <div class="login_information">
-                        <div>
-                        <label>Email address:</label>
-                        </div>
-                        <div>
-                            <input type="email" name="email_address" class="form-control" required="email"/>
-                        </div>
-                        <div>
-                            <label>Password:</label>
-                        </div>
-                        <div>
-                            <input type="password" name="password" class="form-control" />
-                        </div> 
-                        <div>
-                            <label>Reenter password:</label>
-                        </div>
-                        <div>
-                            <input type="password" name="password1" class="form-control" />
-                        </div> 
+                        </div>-->
                     </div>
                 </fieldset>
                 <div>
@@ -210,9 +185,25 @@
                 </div>
             </div>
         </form>
-        <footer>
-            
-        </footer>
+        <script>
+            $(document).ready(function(){
+                
+                $('#organization').change(function(){
+                    selval = $('#organization').val();
+                    console.log(selval);
+                    $.getJSON('Get_Branches.php',{organization:selval},function(branches){
+                        off="";
+                        //off="<select class='form_control'>";
+                        $.each(branches,function(index,branch){
+                            off += "<option value="+ branch.branch_id +">"+ branch.branch_address1 +"</option>";
+                        })
+                        //off+="</select>";
+                        $('#location').html(off);
+                    })
+                    
+                })
+                
+            })
+        </script>
     </body>
 </html>
-
